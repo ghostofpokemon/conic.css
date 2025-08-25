@@ -2,27 +2,39 @@
 @import url("./components/gist.overrides.css");
 
 :root {
-  --surface: lch(10 0 0);
+  /* EXTREME COLOR SCHEME FOR LEGENDS */
+  --surface: #000000;
   --surface2: conic-gradient(
     at bottom left,
-    hsl(200, 5%, 20%),
-    hsl(0, 0%, 30%));
-  --text: lch(95 0 0);
-  --text2: lch(80 0 0);
-  --brand: lch(64 40 347);
+    #ff0066 0%,
+    #8000ff 25%,
+    #ff6600 50%,
+    #00ff88 75%,
+    #ff0066 100%);
+  --text: #ffffff;
+  --text2: #ffff00;
+  --brand: #ff0066;
+  --extreme-glow: #ff0066;
+  --neon-cyan: #00ffff;
+  --plasma-pink: #ff1493;
+  --voltage-purple: #8a2be2;
 
   @media (prefers-color-scheme: light) {
-    --surface: lch(100 0 0);
-    --surface2:  conic-gradient(
-        at bottom left,
-        hsl(200, 5%, 95%),
-        hsl(200, 15%, 80%));
-    --text: lch(10 0 0);
-    --text2: lch(30 0 0);
-    --brand: lch(65 64 350);
+    /* EVEN LIGHT MODE IS EXTREME */
+    --surface: #000000;
+    --surface2: conic-gradient(
+      at bottom left,
+      #ff0066 0%,
+      #8000ff 25%,
+      #ff6600 50%,
+      #00ff88 75%,
+      #ff0066 100%);
+    --text: #ffffff;
+    --text2: #ffff00;
+    --brand: #ff0066;
 
     @media (dynamic-range: high) {
-      --brand: color(display-p3 1 0 1);
+      --brand: color(display-p3 1 0 0.4);
     }
   }
 }
@@ -41,7 +53,28 @@ body {
 
   color: var(--text);
   background: var(--surface);
+  background-image: 
+    radial-gradient(circle at 20% 20%, var(--plasma-pink) 0%, transparent 25%),
+    radial-gradient(circle at 80% 80%, var(--voltage-purple) 0%, transparent 25%),
+    radial-gradient(circle at 40% 70%, var(--neon-cyan) 0%, transparent 25%);
   font-family: system-ui, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  
+  /* EXTREME GLOW EFFECT */
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--surface2);
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: -1;
+    animation: pulse-background 4s ease-in-out infinite alternate;
+  }
 }
 
 body,p,ul,dl,dd,dt,figure,
@@ -51,23 +84,35 @@ h1,h2,h3,h4,h5,h6,small {
 
 a {
   color: var(--brand);
-  color: color(display-p3 0 .5 1);
+  color: var(--extreme-glow);
+  text-shadow: 0 0 10px var(--extreme-glow);
+  transition: all 0.3s ease;
 
   &:visited {
-    color: color(display-p3 .5 0 1);
+    color: var(--voltage-purple);
+    text-shadow: 0 0 10px var(--voltage-purple);
+  }
+  
+  &:hover {
+    text-shadow: 0 0 20px var(--extreme-glow), 0 0 40px var(--extreme-glow);
+    transform: scale(1.05);
   }
 }
 
 h1,h2,h3,h4,h5,h6 {
   line-height: 1.5;
   max-inline-size: 25ch;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 0.1em;
 }
 
 p {
   line-height: 2;
   font-size: 1.25rem;
-  font-weight: 300;
+  font-weight: 400;
   max-inline-size: 45ch;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
 figure {
@@ -95,21 +140,40 @@ header {
   display: grid;
   place-items: center;
   padding: 15vmin 5vmin 5vmin;
+  position: relative;
+  
+  /* EXTREME BACKGROUND GLOW */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, var(--extreme-glow) 0%, transparent 70%);
+    opacity: 0.1;
+    z-index: -1;
+    animation: rotate-glow 8s linear infinite;
+  }
 
   & > h1 {
-    --shine: white;
+    --shine: var(--neon-cyan);
+    font-size: max(min(20vw, 20vh), 5rem);
     background: conic-gradient(
       from 220deg at 50% -200%, 
-      var(--shine), blue, rebeccapurple, red, hotpink, var(--shine)
+      var(--extreme-glow), var(--neon-cyan), var(--voltage-purple), var(--plasma-pink), var(--extreme-glow)
     ) border-box;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 20px var(--extreme-glow));
+    text-shadow: 0 0 30px var(--extreme-glow);
 
     @media (prefers-color-scheme: light) {
       & {
         background: conic-gradient(
           from 220deg at 50% -200%, 
-          rebeccapurple, red, hotpink
+          var(--extreme-glow), var(--voltage-purple), var(--plasma-pink)
         ) border-box;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -117,16 +181,16 @@ header {
     }
 
     @media (prefers-reduced-motion: no-preference) {
-      animation: magic 7s ease infinite forwards;
+      animation: extreme-magic 4s ease infinite forwards;
     }
 
     @supports (background: paint(something)) {
       @media (prefers-reduced-motion: no-preference) {
         & {
-          --shine: lch(85 0 0);
+          --shine: var(--neon-cyan);
           background: conic-gradient(
             from var(--conicAngle) at 50% -200%, 
-            var(--shine), blue, rebeccapurple, red, hotpink, var(--shine)
+            var(--extreme-glow), var(--neon-cyan), var(--voltage-purple), var(--plasma-pink), var(--extreme-glow)
           ) border-box;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -136,29 +200,47 @@ header {
   }
 }
 
-@keyframes magic {
-  to {
-    --conicAngle: 360deg;
-  }
+/* EXTREME ANIMATIONS FOR LEGENDS */
+@keyframes extreme-magic {
+  0% { --conicAngle: 0deg; transform: scale(1); }
+  25% { transform: scale(1.02); }
+  50% { --conicAngle: 180deg; transform: scale(1); }
+  75% { transform: scale(1.02); }
+  100% { --conicAngle: 360deg; transform: scale(1); }
+}
+
+@keyframes pulse-background {
+  0% { opacity: 0.05; }
+  100% { opacity: 0.15; }
+}
+
+@keyframes rotate-glow {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 h1 {
   font-size: max(min(15vw, 15vh), 4rem);
-  font-weight: lighter;
+  font-weight: 900;
   line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
 }
 
 small {
   color: var(--text2);
   display: inline-block;
-  max-inline-size: 25ch;
+  max-inline-size: 35ch;
   line-height: 1.5;
-  font-size: 1.25rem;
-  font-weight: 200;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 10px var(--text2);
 
   @media (prefers-reduced-motion: no-preference) {
     & {
-      animation: slide-up 4s ease forwards;
+      animation: extreme-slide-up 3s ease forwards;
     }
   }
 }
@@ -172,13 +254,56 @@ aside {
   gap: 3ch;
   padding: 3ch 4ch;
   margin-inline: auto;
+  border: 2px solid var(--extreme-glow);
+  box-shadow: 
+    0 0 20px var(--extreme-glow),
+    inset 0 0 20px rgba(255, 0, 102, 0.1);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent, var(--extreme-glow), transparent);
+    opacity: 0.1;
+    animation: rotate-border 6s linear infinite;
+  }
 
   & h5 {
     color: var(--text2);
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-shadow: 0 0 10px var(--text2);
+  }
+  
+  & p {
+    color: var(--text);
+    font-weight: 500;
   }
 
   & > button {
     justify-self: end;
+    background: var(--extreme-glow);
+    color: var(--surface);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px var(--extreme-glow);
+    
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px var(--extreme-glow);
+    }
   }
 
   @supports not (margin-inline: auto) {
@@ -189,31 +314,50 @@ aside {
   }
 }
 
-@keyframes slide-up {
+@keyframes extreme-slide-up {
   from {
     opacity: 0;
-    transform: translateY(-.5ex);
+    transform: translateY(-2ex) scale(0.8);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes rotate-border {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .github-corner {
-  fill: var(--brand);
+  fill: var(--extreme-glow);
   fill: url(#octocat-gradient); 
-  color: var(--surface); 
+  color: var(--surface);
+  filter: drop-shadow(0 0 10px var(--extreme-glow));
+  transition: all 0.3s ease;
+  
+  &:hover {
+    filter: drop-shadow(0 0 20px var(--extreme-glow));
+    transform: scale(1.1);
+  }
   
   &:hover .octo-arm {
-    animation: octocat-wave 560ms ease-in-out
+    animation: extreme-octocat-wave 400ms ease-in-out;
   }
 }
 
-@keyframes octocat-wave{
+@keyframes extreme-octocat-wave{
   0%,100% {
-    transform: rotate(0)
+    transform: rotate(0) scale(1);
   }
-  20%,60% {
-    transform: rotate(-25deg)
+  25% {
+    transform: rotate(-35deg) scale(1.1);
   }
-  40%,80% {
-    transform: rotate(10deg)
+  50% {
+    transform: rotate(20deg) scale(1.2);
+  }
+  75% {
+    transform: rotate(-20deg) scale(1.1);
   }
 }

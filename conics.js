@@ -1,5 +1,43 @@
 const CONICS = [
   {
+    colors: ['#ff0066', '#8000ff', '#00ffff'],
+    hex: ['#ff0066', '#8000ff', '#00ffff'],
+    gradient: `
+      conic-gradient(
+        from 0deg at center,
+        #ff0066 0%,
+        #8000ff 33%,
+        #00ffff 66%,
+        #ff0066 100%
+      )`,
+    shadow: '#ff0066',
+  },
+  {
+    colors: ['#ff1493', '#ff6600', '#ffff00'],
+    hex: ['#ff1493', '#ff6600', '#ffff00'],
+    gradient: `
+      conic-gradient(
+        from 45deg at top left,
+        #ff1493,
+        #ff6600,
+        #ffff00,
+        #ff1493
+      )`,
+    shadow: '#ff1493',
+  },
+  {
+    colors: ['#8a2be2', '#ff4500', '#00ff88'],
+    hex: ['#8a2be2', '#ff4500', '#00ff88'],
+    gradient: `
+      conic-gradient(
+        from 180deg at bottom center,
+        #8a2be2 0%,
+        #ff4500 50%,
+        #00ff88 100%
+      )`,
+    shadow: '#8a2be2',
+  },
+  {
     colors: ['cyan', 'rebeccapurple'],
     hex: ['#0ff', '#639'],
     gradient: `

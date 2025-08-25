@@ -49,9 +49,10 @@ export default class ConicGradient extends HTMLElement {
         this.conic.gradient))
 
     new Noty({
-      text: "conic gradient CSS copied!",
-      timeout: 2000,
+      text: "🔥 EXTREME GRADIENT STOLEN! 🔥 Time to dominate!",
+      timeout: 3000,
       killer: true,
+      type: 'success',
     }).show()
   }
 
